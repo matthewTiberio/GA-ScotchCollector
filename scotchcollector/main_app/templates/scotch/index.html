@@ -3,15 +3,15 @@
 <h1>Scotch List</h1>
 
 {% for scotch in scotchs %}
-<div class="card">
+<div class="card mt-3">
   <a href="{% url 'detail' scotch.id %}">
-    <div class="card-content">
-      <span class="card-title">{{ scotch.name }}</span>
-      <p>Region: {{ scotch.region }}</p>
-      <p>Price: {{ scotch.price }}</p>
-      <p>Volume: {{ scotch.volume }}</p>
-      <p>Description: {{ scotch.description }}</p>
-    </div>
+    <div class="card-header">{{ scotch.name }}</div>
   </a>
+  <div class="card-body">
+    <p>Region: {{ scotch.get_region_display }}</p>
+    <p>Price: ${{ scotch.price }}</p>
+    <p>Volume: {{ scotch.volume }}</p>
+    <p>Description: {{ scotch.description }}</p>
+  </div>
 </div>
 {% endfor %} {% endblock %}

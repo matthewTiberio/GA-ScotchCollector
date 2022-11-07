@@ -2,15 +2,13 @@
 
 <h1>Scotch Details</h1>
 
-<div class="card">
-  <a href="{% url 'detail' scotch.id %}">
-    <div class="card-content">
-      <span class="card-title">{{ scotch.name }}</span>
-      <p>Region: {{ scotch.region }}</p>
-      <p>Price: {{ scotch.price }}</p>
-      <p>Volume: {{ scotch.volume }}</p>
-      <p>Description: {{ scotch.description }}</p>
-    </div>
-  </a>
+<div class="card mt-3">
+  <div class="card-header">{{ scotch.name }}</div>
+  <div class="card-body">
+    <p>Region: {{ scotch.get_region_display }}</p>
+    <p>Price: ${{ scotch.price }}</p>
+    <p>Volume: {{ scotch.volume }}</p>
+    <p>Description: {{ scotch.description }}</p>
+  </div>
 </div>
 {% endblock %}
