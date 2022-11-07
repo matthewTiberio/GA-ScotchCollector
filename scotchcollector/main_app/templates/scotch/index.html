@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Scotch List</h1>
+
+{% for scotch in scotchs %}
+<div class="card">
+  <a href="{% url 'detail' scotch.id %}">
+    <div class="card-content">
+      <span class="card-title">{{ scotch.name }}</span>
+      <p>Region: {{ scotch.region }}</p>
+      <p>Price: {{ scotch.price }}</p>
+      <p>Volume: {{ scotch.volume }}</p>
+      <p>Description: {{ scotch.description }}</p>
+    </div>
+  </a>
+</div>
+{% endfor %} {% endblock %}
