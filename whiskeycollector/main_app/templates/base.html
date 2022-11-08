@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scotch Collector</title>
+    <title>Whiskey Collector</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -21,7 +21,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Scotch Drinkers</a>
+        <a class="navbar-brand" href="/">Whiskey Drinkers</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -42,7 +42,7 @@
               <a class="nav-link active" href="/about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/scotch">All Scotch</a>
+              <a class="nav-link active" href="/whiskey">All whiskey</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -52,23 +52,26 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Scotch by Region
+                Whiskey by Type
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="#">Islay</a>
+                  <a class="dropdown-item" href="#">Bourbon</a>
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="#">Highland</a>
+                  <a class="dropdown-item" href="#">Irish</a>
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="#">Lowland</a>
+                  <a class="dropdown-item" href="#">Rye</a>
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" href="#">Speyside</a>
+                  <a class="dropdown-item" href="#">Scotch</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">Other</a>
                 </li>
               </ul>
             </li>
@@ -78,7 +81,7 @@
     </nav>
     <main class="container">{% block content %} {% endblock %}</main>
     <footer class="text-center fixed-bottom">
-      <div>All Rights Reserved, &copy; 2022 Scotch Collector &nbsp;</div>
+      <div>All Rights Reserved, &copy; 2022 SitunarioSoftware &nbsp;</div>
     </footer>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"

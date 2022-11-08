@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Whiskey List</h1>
+
+{% for whiskey in whiskeys %}
+<div class="card mt-3">
+  <a href="{% url 'detail' whiskey.id %}">
+    <div class="card-header">{{ whiskey.name }}</div>
+  </a>
+  <div class="card-body">
+    <p>Region: {{ whiskey.get_type_display }}</p>
+    <p>Origin: {{ whiskey.origin }}</p>
+    <p>Sub Type: {{ whiskey.subType }}</p>
+    <p>Price: ${{ whiskey.price }}</p>
+    <p>Volume: {{ whiskey.volume }}</p>
+    <p>Description: {{ whiskey.description }}</p>
+  </div>
+</div>
+{% endfor %} {% endblock %}
