@@ -24,15 +24,29 @@ def about(request):
 
 def whiskey_index(request):
     whiskeys = Whiskey.objects.all()
-    return render(request, 'main_app/index.html', { 'whiskeys': whiskeys })
+    types = WhiskeyTypes.objects.all()
+    return render(request, 'main_app/index.html', { 'whiskeys': whiskeys, 'types': types })
 
 def whiskey_detail(request, whiskey_id):
     whiskey = Whiskey.objects.get(id=whiskey_id)
-    return render(request, 'main_app/detail.html', { 'whiskey': whiskey })
+    type = WhiskeyTypes.objects.get(id=whiskey.type_id)
+    return render(request, 'main_app/detail.html', { 'whiskey': whiskey, 'type': type })
 
 def whiskey_create(request):
     types = TYPES
     return render(request, 'main_app/create.html', { 'types': types})
 
+# Need to add Whiskey Types to database
 def whiskey_add(request):
-    return HttpResponse(request.body)
+    data = request.POST
+    name = data["name"]
+    whiskeyType = WhiskeyTypes.objects.get(type=data["type"])
+    type_id = whiskeyType.id
+    origin = data["origin"]
+    subType = data["subType"]
+    price = data["price"]
+    volume = data["volume"]
+    description = data["description"]
+    w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description)
+    w.save()
+    return redirect('index')

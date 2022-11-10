@@ -8,7 +8,9 @@
     <div class="card-header">{{ whiskey.name }}</div>
   </a>
   <div class="card-body">
-    <p>Region: {{ whiskey.get_type_display }}</p>
+    {% for type in types %} {% if type.id == whiskey.type_id %}
+    <p>Region: {{ type.get_type_display }}</p>
+    {% endif %}{% endfor %}
     <p>Origin: {{ whiskey.origin }}</p>
     <p>Sub Type: {{ whiskey.subType }}</p>
     <p>Price: ${{ whiskey.price }}</p>

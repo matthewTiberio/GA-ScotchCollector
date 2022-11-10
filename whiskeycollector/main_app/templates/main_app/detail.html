@@ -6,8 +6,8 @@
   <div class="card-header">{{ whiskey.name }}</div>
   <div class="card-body">
     <p>Region: {{ type.get_type_display }}</p>
-    <p>Origin: ${{ whiskey.origin }}</p>
-    <p>Sub Type: ${{ whiskey.subType }}</p>
+    <p>Origin: {{ whiskey.origin }}</p>
+    <p>Sub Type: {{ whiskey.subType }}</p>
     <p>Price: ${{ whiskey.price }}</p>
     <p>Volume: {{ whiskey.volume }}</p>
     <p>Description: {{ whiskey.description }}</p>
