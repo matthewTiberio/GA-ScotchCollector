@@ -1,17 +1,13 @@
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import DeleteView
 from django.http import HttpResponse
 from .models import Whiskey, WhiskeyTypes, TYPES
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class WhiskeyCreate(CreateView):
-    model = Whiskey
-    fields = '__all__'
-
-class WhiskeyUpdate(UpdateView):
-    model = Whiskey
-    fields = '__all__'
-
-class WhiskeyDelete(DeleteView):
+class WhiskeyDelete(LoginRequiredMixin, DeleteView):
     model = Whiskey
     success_url = '/whiskey/'
 
@@ -22,21 +18,24 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def whiskey_index(request):
     whiskeys = Whiskey.objects.all()
     types = WhiskeyTypes.objects.all()
     return render(request, 'main_app/index.html', { 'whiskeys': whiskeys, 'types': types })
 
+@login_required
 def whiskey_detail(request, whiskey_id):
     whiskey = Whiskey.objects.get(id=whiskey_id)
     type = WhiskeyTypes.objects.get(id=whiskey.type_id)
     return render(request, 'main_app/detail.html', { 'whiskey': whiskey, 'type': type })
 
+@login_required
 def whiskey_create(request):
     types = TYPES
     return render(request, 'main_app/create.html', { 'types': types})
 
-# Need to add Whiskey Types to database
+@login_required
 def whiskey_add(request):
     data = request.POST
     name = data["name"]
@@ -47,16 +46,18 @@ def whiskey_add(request):
     price = data["price"]
     volume = data["volume"]
     description = data["description"]
-    w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description)
+    w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user)
     w.save()
     return redirect('index')
 
+@login_required
 def whiskey_edit(request, whiskey_id):
     whiskey = Whiskey.objects.get(id=whiskey_id)
     types = TYPES
     currentType = WhiskeyTypes.objects.get(id=whiskey.type_id)
     return render(request, 'main_app/edit.html', { 'whiskey': whiskey, 'currentType': currentType, 'types': types })
 
+@login_required
 def whiskey_update(request, whiskey_id):
     whiskey = Whiskey.objects.get(id=whiskey_id)
     data = request.POST
@@ -71,3 +72,17 @@ def whiskey_update(request, whiskey_id):
     w = Whiskey(id=whiskey_id, name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description)
     w.save()
     return redirect('index')
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('index')
+    else:
+      error_message = 'Invalid sign up - try again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'registration/signup.html', context)
