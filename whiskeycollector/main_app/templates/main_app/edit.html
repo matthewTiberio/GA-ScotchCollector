@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Edit Whiskey</h1>
+<!-- Leaving the action empty makes the form post to the same url used to display it -->
+<form action="{% url 'whiskey_update' whiskey.id %}" method="POST">
+  {% csrf_token %}
+  <label for="name" class="form-label">Name:</label>
+  <input
+    type="text"
+    name="name"
+    class="form-control"
+    value="{{ whiskey.name }}"
+  />
+  <label for="type" class="form-label">Type:</label>
+  <select name="type" name="type" class="form-select">
+    {% for type in types %} {% if type.0 == currentType.type %}
+    <option value="{{ type.0 }}" selected>{{ type.1 }}</option>
+    {% else %}
+    <option value="{{ type.0 }}">{{ type.1 }}</option>
+    {% endif %}{% endfor %}
+  </select>
+  <label for="origin" class="form-label">Origin:</label>
+  <input
+    type="text"
+    name="origin"
+    class="form-control"
+    value="{{ whiskey.origin }}"
+  />
+  <label for="subType" class="form-label">Sub Type:</label>
+  <input
+    type="text"
+    name="subType"
+    class="form-control"
+    value="{{ whiskey.subType }}"
+  />
+  <label for="price" class="form-label">Price:</label>
+  <input
+    type="number"
+    name="price"
+    class="form-control"
+    value="{{ whiskey.price }}"
+  />
+  <label for="volume" class="form-label">Volume:</label>
+  <input
+    type="text"
+    name="volume"
+    class="form-control"
+    value="{{ whiskey.volume }}"
+  />
+  <label for="description" class="form-label">Description:</label>
+  <input
+    type="text"
+    name="description"
+    class="form-control"
+    value="{{ whiskey.description }}"
+  />
+  <input type="submit" value="Update" class="btn" />
+</form>
+{% endblock %}

@@ -50,3 +50,24 @@ def whiskey_add(request):
     w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description)
     w.save()
     return redirect('index')
+
+def whiskey_edit(request, whiskey_id):
+    whiskey = Whiskey.objects.get(id=whiskey_id)
+    types = TYPES
+    currentType = WhiskeyTypes.objects.get(id=whiskey.type_id)
+    return render(request, 'main_app/edit.html', { 'whiskey': whiskey, 'currentType': currentType, 'types': types })
+
+def whiskey_update(request, whiskey_id):
+    whiskey = Whiskey.objects.get(id=whiskey_id)
+    data = request.POST
+    name = data['name']
+    whiskeyType = WhiskeyTypes.objects.get(type=data["type"])
+    type_id = whiskeyType.id
+    origin = data["origin"]
+    subType = data["subType"]
+    price = data["price"]
+    volume = data["volume"]
+    description = data["description"]
+    w = Whiskey(id=whiskey_id, name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description)
+    w.save()
+    return redirect('index')

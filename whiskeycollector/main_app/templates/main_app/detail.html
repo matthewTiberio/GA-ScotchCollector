@@ -13,20 +13,22 @@
     <p>Description: {{ whiskey.description }}</p>
   </div>
 </div>
-<div class="container-fluid d-flex justify-content-around">
-  <button
-    formaction="{%url 'whiskey_update' whiskey.id%}"
-    type="submit"
-    class="btn btn-primary btn-lg my-3"
-  >
-    Edit
-  </button>
-  <button
-    formaction="{%url 'whiskey_delete' whiskey.id%}"
-    type="submit"
-    class="btn btn-danger btn-lg my-3"
-  >
-    Delete
-  </button>
+<div>
+  <form class="container-fluid d-flex justify-content-around">
+    <button
+      type="submit"
+      class="btn btn-primary btn-lg my-3"
+      formaction="{%url 'whiskey_edit' whiskey.id%}"
+    >
+      Edit
+    </button>
+    <button
+      formaction="{%url 'whiskey_delete' whiskey.id%}"
+      type="submit"
+      class="btn btn-danger btn-lg my-3"
+    >
+      Delete
+    </button>
+  </form>
 </div>
 {% endblock %}
