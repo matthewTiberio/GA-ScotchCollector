@@ -6,6 +6,11 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+import uuid
+import boto3
+
+S3_BASE_URL = 'https://s3-us-west-2.amazonaws.com/'
+BUCKET = 'whiskeycollectorapp'
 
 class WhiskeyDelete(LoginRequiredMixin, DeleteView):
     model = Whiskey
@@ -46,7 +51,17 @@ def whiskey_add(request):
     price = data["price"]
     volume = data["volume"]
     description = data["description"]
-    w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user)
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            image_url = f"{S3_BASE_URL}{BUCKET}/{key}"
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+    w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user, image_url=image_url)
     w.save()
     return redirect('index')
 
