@@ -1,7 +1,11 @@
 {% extends 'base.html' %} {% block content %}
 <h1>Edit Whiskey</h1>
 <!-- Leaving the action empty makes the form post to the same url used to display it -->
-<form action="{% url 'whiskey_update' whiskey.id %}" method="POST">
+<form
+  action="{% url 'whiskey_update' whiskey.id %}"
+  method="POST"
+  enctype="multipart/form-data"
+>
   {% csrf_token %}
   <label for="name" class="form-label">Name:</label>
   <input
@@ -53,6 +57,8 @@
     class="form-control"
     value="{{ whiskey.description }}"
   />
+  <label for="photo-file" class="form-label">Image:</label>
+  <input type="file" name="photo-file" id="photo-file" class="form-control" />
   <input type="submit" value="Update" class="btn" />
 </form>
 {% endblock %}

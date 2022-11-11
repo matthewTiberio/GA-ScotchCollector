@@ -61,7 +61,9 @@ def whiskey_add(request):
         except Exception as e:
             print('An error occurred uploading file to S3')
             print(e)
-    w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user, image_url=image_url)
+        w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user, image_url=image_url)
+    else:
+        w = Whiskey(name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user)
     w.save()
     return redirect('index')
 
@@ -84,7 +86,19 @@ def whiskey_update(request, whiskey_id):
     price = data["price"]
     volume = data["volume"]
     description = data["description"]
-    w = Whiskey(id=whiskey_id, name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description)
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            image_url = f"{S3_BASE_URL}{BUCKET}/{key}"
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+        w = Whiskey(id=whiskey_id, name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user, image_url=image_url)
+    else:
+        w = Whiskey(id=whiskey_id, name=name, type_id=type_id, origin=origin, subType=subType, price=price, volume=volume, description=description, user=request.user)
     w.save()
     return redirect('index')
 
