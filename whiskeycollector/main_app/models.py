@@ -26,6 +26,7 @@ class Whiskey(models.Model):
     description = models.TextField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image_url = models.CharField(max_length=200, default="https://s3-us-west-2.amazonaws.com/whiskeycollectorapp/a31ae1.png")
+    similar_products = models.ManyToManyField("self")
 
     def __str__(self):
         return self.name

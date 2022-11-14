@@ -33,7 +33,8 @@ def whiskey_index(request):
 def whiskey_detail(request, whiskey_id):
     whiskey = Whiskey.objects.get(id=whiskey_id)
     type = WhiskeyTypes.objects.get(id=whiskey.type_id)
-    return render(request, 'main_app/detail.html', { 'whiskey': whiskey, 'type': type })
+    options = Whiskey.objects.exclude(id__in = whiskey.similar_products.all().values_list('id'))
+    return render(request, 'main_app/detail.html', { 'whiskey': whiskey, 'type': type, 'options': options })
 
 @login_required
 def whiskey_create(request):
@@ -115,3 +116,7 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+def whiskey_similar(request, whiskey_id, option_id):
+    Whiskey.objects.get(id=whiskey_id).similar_products.add(option_id)
+    return redirect('index')

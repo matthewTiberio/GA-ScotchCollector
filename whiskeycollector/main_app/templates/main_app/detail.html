@@ -32,4 +32,55 @@
     </button>
   </form>
 </div>
+<aside>
+  <button
+    type="submit"
+    class="similarBtn btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+  >
+    Add Similar Product
+  </button>
+  <h3>Similar Products</h3>
+  {% if whiskey.similar_products.count %}
+  <div>
+    {% for similar_product in whiskey.similar_products.all %}
+    <div class="card">{{similar_product.name}}</div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <h5>No Similar Products</h5>
+  {% endif %}
+</aside>
+<div
+  class="modal fad"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Add Similar Products</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        {% for option in options.all %} {% if option.id != whiskey.id %}
+        <form action="{%url 'whiskey_similar' whiskey.id option.id%}">
+          <div class="form-control">
+            {{ option.name }}
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
